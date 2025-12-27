@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { LanguageProvider } from './LanguageContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import LabSection from './components/LabSection';
@@ -8,7 +9,7 @@ import HeritageSection from './components/HeritageSection';
 import Footer from './components/Footer';
 import CanvasBackground from './components/CanvasBackground';
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
   // Custom cursor logic
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isPointer, setIsPointer] = useState(false);
@@ -58,6 +59,14 @@ const App: React.FC = () => {
         <Footer />
       </div>
     </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 };
 

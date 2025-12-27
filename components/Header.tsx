@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { NavItem } from '../types';
-
-const navItems: NavItem[] = [
-  { label: 'Research', href: '#research' },
-  { label: 'Strategy', href: '#strategy' },
-  { label: 'Insights', href: '#insights' },
-  { label: 'Heritage', href: '#heritage' },
-];
+import { useLanguage } from '../LanguageContext';
 
 const Header: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [lang, setLang] = useState<'EN' | 'CN'>('EN');
+  const { lang, toggleLang, t } = useLanguage();
+
+  const navItems: NavItem[] = [
+    { label: t.nav.research, href: '#research' },
+    { label: t.nav.strategy, href: '#strategy' },
+    { label: t.nav.insights, href: '#insights' },
+    { label: t.nav.heritage, href: '#heritage' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,15 +38,24 @@ const Header: React.FC = () => {
       }`}
     >
       <div className="max-w-[90vw] mx-auto flex justify-between items-center">
-        {/* Logo Area */}
+        {/* Logo Area - Updated for Rectangular SVG */}
         <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="w-8 h-8 border border-graphite group-hover:border-gold transition-colors duration-300 flex items-center justify-center relative overflow-hidden">
-             {/* Abstract Q logo */}
-             <div className="absolute w-[120%] h-[1px] bg-graphite group-hover:bg-gold rotate-45 transform origin-center transition-colors duration-300"></div>
-          </div>
-          <div className="flex flex-col">
-            <span className="font-serif font-bold text-lg tracking-wide leading-none text-graphite">QUANTELL</span>
-            <span className="font-mono text-[0.6rem] tracking-[0.2em] text-muted uppercase leading-none mt-1">Capital</span>
+          <div className="h-8 md:h-10 w-auto min-w-[120px] flex items-center justify-start relative">
+             <img 
+               src="/quantell.svg" 
+               alt="Quantell Capital" 
+               className="h-full w-auto object-contain"
+               onError={(e) => {
+                 // Fallback if image not found, just show text style for debugging
+                 e.currentTarget.style.display = 'none';
+                 e.currentTarget.nextElementSibling?.classList.remove('hidden');
+               }}
+             />
+             {/* Fallback Text Logo if SVG is missing */}
+             <div className="hidden flex flex-col">
+               <span className="font-serif font-bold text-lg tracking-wide leading-none text-graphite">QUANTELL</span>
+               <span className="font-mono text-[0.6rem] tracking-[0.2em] text-muted uppercase leading-none mt-1">Capital</span>
+             </div>
           </div>
         </div>
 
@@ -53,7 +63,7 @@ const Header: React.FC = () => {
         <nav className="hidden md:flex items-center gap-12">
           {navItems.map((item) => (
             <a
-              key={item.label}
+              key={item.href}
               href={item.href}
               onClick={(e) => handleScrollTo(e, item.href)}
               className="text-sm font-mono tracking-widest text-graphite/80 hover:text-gold transition-all duration-300 relative group"
@@ -66,8 +76,8 @@ const Header: React.FC = () => {
 
         {/* Lang Switch */}
         <button
-          onClick={() => setLang(lang === 'EN' ? 'CN' : 'EN')}
-          className="text-xs font-mono border border-gray-300 px-3 py-1 rounded-sm hover:border-gold hover:text-gold transition-colors duration-300"
+          onClick={toggleLang}
+          className="text-xs font-mono border border-gray-300 px-3 py-1 rounded-sm hover:border-gold hover:text-gold transition-colors duration-300 w-12"
         >
           {lang}
         </button>

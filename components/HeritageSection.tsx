@@ -1,7 +1,10 @@
 import React from 'react';
 import SectionReveal from './SectionReveal';
+import { useLanguage } from '../LanguageContext';
 
 const HeritageSection: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="heritage" className="py-32 bg-paper relative">
        {/* Background decorative sum symbol */}
@@ -12,18 +15,18 @@ const HeritageSection: React.FC = () => {
       <div className="max-w-[90vw] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
           <SectionReveal>
-            <h2 className="font-serif text-4xl mb-8">Heritage & <br/>Global Presence</h2>
+            <h2 className="font-serif text-4xl mb-8">{t.heritage.title} <br/>{t.heritage.title_break}</h2>
             <div className="space-y-8">
               <div>
-                <h3 className="font-mono text-sm font-bold text-gold mb-2">STANFORD, CA</h3>
+                <h3 className="font-mono text-sm font-bold text-gold mb-2">{t.heritage.stanford_title}</h3>
                 <p className="font-sans text-sm text-gray-600 leading-relaxed">
-                  Our genesis lies in the academic halls of Stanford University. The firm maintains deep ties with the Department of Mathematics, fostering a pipeline of rigorous talent and cutting-edge research in stochastic analysis.
+                  {t.heritage.stanford_desc}
                 </p>
               </div>
               <div>
-                <h3 className="font-mono text-sm font-bold text-gold mb-2">SINGAPORE</h3>
+                <h3 className="font-mono text-sm font-bold text-gold mb-2">{t.heritage.singapore_title}</h3>
                 <p className="font-sans text-sm text-gray-600 leading-relaxed">
-                  Headquartered in the heart of Asia's financial hub, Quantell Capital leverages Singapore's robust regulatory framework and proximity to emerging markets to deploy capital with institutional-grade security and efficiency.
+                  {t.heritage.singapore_desc}
                 </p>
               </div>
             </div>
@@ -48,7 +51,7 @@ const HeritageSection: React.FC = () => {
                 </div>
              </div>
              <div className="relative z-10 font-serif text-2xl text-graphite/10 tracking-[1em] text-center w-full">
-                GLOBAL<br/>COORDINATES
+                {t.heritage.map_bg_text.split(' ').map((word, i) => <div key={i}>{word}</div>)}
              </div>
           </SectionReveal>
         </div>
