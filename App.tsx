@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { LanguageProvider } from './LanguageContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -10,16 +10,41 @@ import Footer from './components/Footer';
 import CanvasBackground from './components/CanvasBackground';
 
 const AppContent: React.FC = () => {
-  // Custom cursor logic
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isPointer, setIsPointer] = useState(false);
+  // Custom cursor logic - using refs for direct DOM manipulation (performance)
+  const dotRef = useRef<HTMLDivElement>(null);
+  const spotlightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      const { clientX, clientY } = e;
       
-      const target = e.target as HTMLElement;
-      setIsPointer(window.getComputedStyle(target).cursor === 'pointer' || target.tagName === 'A' || target.tagName === 'BUTTON');
+      // Update positions directly without triggering React re-renders
+      if (dotRef.current) {
+        dotRef.current.style.left = `${clientX}px`;
+        dotRef.current.style.top = `${clientY}px`;
+        
+        // Check if hovering over clickable element
+        const target = e.target as HTMLElement;
+        const isClickable = 
+          target.tagName === 'A' || 
+          target.tagName === 'BUTTON' || 
+          target.closest('a') || 
+          target.closest('button') ||
+          window.getComputedStyle(target).cursor === 'pointer';
+
+        if (isClickable) {
+          dotRef.current.classList.add('scale-150', 'bg-transparent', 'border', 'border-graphite');
+          dotRef.current.classList.remove('bg-graphite');
+        } else {
+          dotRef.current.classList.remove('scale-150', 'bg-transparent', 'border', 'border-graphite');
+          dotRef.current.classList.add('bg-graphite');
+        }
+      }
+
+      if (spotlightRef.current) {
+        spotlightRef.current.style.left = `${clientX}px`;
+        spotlightRef.current.style.top = `${clientY}px`;
+      }
     };
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -37,14 +62,17 @@ const AppContent: React.FC = () => {
 
       {/* Custom Spotlight Cursor (Decorative) */}
       <div 
+        ref={spotlightRef}
         className="fixed w-96 h-96 bg-gold/10 rounded-full blur-[80px] pointer-events-none z-0 transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 hidden md:block"
-        style={{ left: mousePosition.x, top: mousePosition.y }}
+        style={{ left: '-100px', top: '-100px' }} // Initial off-screen
       />
       
       {/* Small dot cursor */}
+      {/* Removed transition-all to prevent position lag. Added specific transitions for style changes. */}
       <div 
-        className={`fixed w-2 h-2 bg-graphite rounded-full pointer-events-none z-[60] transform -translate-x-1/2 -translate-y-1/2 transition-all duration-200 hidden md:block ${isPointer ? 'scale-150 bg-transparent border border-graphite' : ''}`}
-        style={{ left: mousePosition.x, top: mousePosition.y }}
+        ref={dotRef}
+        className="fixed w-2 h-2 bg-graphite rounded-full pointer-events-none z-[60] transform -translate-x-1/2 -translate-y-1/2 transition-[transform,colors,background-color,border-color] duration-200 hidden md:block"
+        style={{ left: '-100px', top: '-100px' }} // Initial off-screen
       />
 
       <div className="relative z-10">

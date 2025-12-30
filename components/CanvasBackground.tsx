@@ -42,14 +42,14 @@ const CanvasBackground: React.FC = () => {
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
       ctx.lineWidth = 1;
+      // Reverted to fixed opacity color
+      ctx.strokeStyle = 'rgba(238, 209, 132, 0.3)';
 
       // Draw flowing lines
       for (let i = 0; i < lines; i++) {
         const yBase = i * spacing + spacing / 2;
         
         ctx.beginPath();
-        // Gold color with low opacity for elegance
-        ctx.strokeStyle = 'rgba(238, 209, 132, 0.3)'; 
 
         for (let x = 0; x < width; x += 10) {
           // Stochastic wave simulation (superposition of sines)

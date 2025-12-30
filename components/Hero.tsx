@@ -17,19 +17,21 @@ const Hero: React.FC = () => {
               </h1>
             </div>
             
+            {/* Extended Line: Spans col 2 to 11 on desktop, thickness 2px */}
+            <div className="col-span-1 lg:col-span-10 lg:col-start-2">
+              <div className="w-12 lg:w-full h-[2px] bg-gold mb-6 lg:mb-8"></div>
+            </div>
+            
             <div className="lg:col-span-4 lg:col-start-2">
-              <div className="w-12 h-[1px] bg-gold mb-6"></div>
               <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed text-justify">
                 {t.hero.desc}
               </p>
             </div>
 
             <div className="lg:col-span-3 lg:col-start-9 flex flex-col justify-end pb-2">
-               <div className="font-mono text-xs text-muted flex items-center gap-2">
-                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                 {t.hero.system_status}
-               </div>
-               <div className="font-mono text-xs text-muted mt-2">
+               {/* Consolidated Status Line: Pulse Dot + Location */}
+               <div className="font-mono text-xs text-muted flex items-center gap-3">
+                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.4)]"></span>
                  {t.hero.location}
                </div>
             </div>

@@ -6,7 +6,7 @@ const StrategySection: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <section id="strategy" className="py-32 bg-graphite text-paper relative overflow-hidden">
+    <section id="strategy" className="py-32 bg-silver text-paper relative overflow-hidden">
       {/* Background Grid */}
       <div className="absolute inset-0 opacity-10 pointer-events-none" 
            style={{ backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
