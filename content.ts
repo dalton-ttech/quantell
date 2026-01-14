@@ -1,3 +1,5 @@
+import { papersEN, papersCN } from './data/papers';
+
 export const content = {
   EN: {
     nav: {
@@ -11,7 +13,7 @@ export const content = {
       title_italic: 'Integrity',
       title_line2: 'Institutional',
       title_gold: 'Scale',
-      desc: 'Quantell Capital is a research-driven quantitative hedge fund operating on the frontier of stochastic calculus and machine learning. We function as a "Quasar Alpha Lab"—transforming rigorous academic theory into robust market infrastructure.',
+      desc: 'Quantell Capital is a research-driven quantitative hedge fund operating on the frontier of stochastic calculus and machine learning. We operate the "Quasar Alpha Lab"—transforming rigorous academic theory into robust market infrastructure.',
       system_status: 'SYSTEM STATUS: NOMINAL',
       location: 'SINGAPORE [HQ] / STANFORD [LAB]',
     },
@@ -58,26 +60,7 @@ export const content = {
     insights: {
       title: 'Insights',
       view_archive: 'VIEW ARCHIVE',
-      papers: [
-        {
-          title: "Asymptotic Behavior of Liquidity Pools in Fragmented Markets",
-          category: "MARKET MICROSTRUCTURE",
-          date: "OCT 2023",
-          abstract: "Analyzing the stability of automated market makers under high volatility regimes using mean-field game theory."
-        },
-        {
-          title: "Non-Linear Dependence in Cross-Asset Correlations",
-          category: "RISK MANAGEMENT",
-          date: "AUG 2023",
-          abstract: "A copula-based approach to modeling tail risk dependencies during black swan events."
-        },
-        {
-          title: "Transformer Architectures for Time-Series Forecasting",
-          category: "MACHINE LEARNING",
-          date: "JUN 2023",
-          abstract: "Adapting large language model attention mechanisms to identify long-range dependencies in price action."
-        }
-      ]
+      papers: papersEN
     },
     heritage: {
       title: 'Heritage &',
@@ -158,26 +141,7 @@ export const content = {
     insights: {
       title: '學術洞察',
       view_archive: '查看歸檔',
-      papers: [
-        {
-          title: "碎片化市場中流動性池的漸近行為",
-          category: "市場微觀結構",
-          date: "2023年10月",
-          abstract: "利用平均場博弈論分析高波動環境下自動做市商（AMM）的穩定性。"
-        },
-        {
-          title: "跨資產相關性中的非線性依賴",
-          category: "風險管理",
-          date: "2023年8月",
-          abstract: "一種基於 Copula 函數的方法，用於建模黑天鵝事件期間的尾部風險依賴。"
-        },
-        {
-          title: "用於時間序列預測的 Transformer 架構",
-          category: "機器學習",
-          date: "2023年6月",
-          abstract: "調整大語言模型注意力機制，以識別價格行為中的長程依賴關係。"
-        }
-      ]
+      papers: papersCN
     },
     heritage: {
       title: '歷史傳承 &',

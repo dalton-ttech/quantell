@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { LanguageProvider } from './LanguageContext';
+import React, { useEffect, useRef, useState } from 'react';
+import { LanguageProvider, useLanguage } from './LanguageContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import LabSection from './components/LabSection';
@@ -8,11 +8,23 @@ import InsightsSection from './components/InsightsSection';
 import HeritageSection from './components/HeritageSection';
 import Footer from './components/Footer';
 import CanvasBackground from './components/CanvasBackground';
+import ArticlePage from './components/ArticlePage';
 
 const AppContent: React.FC = () => {
+  // Access global language data
+  const { t } = useLanguage();
+
   // Custom cursor logic - using refs for direct DOM manipulation (performance)
   const dotRef = useRef<HTMLDivElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
+
+  // View State - Store ID instead of object to support dynamic language switching
+  const [activePaperId, setActivePaperId] = useState<string | null>(null);
+
+  // Derive the active paper object from the current language context based on ID
+  const activePaper = activePaperId 
+    ? t.insights.papers.find(p => p.id === activePaperId) || null 
+    : null;
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -30,6 +42,7 @@ const AppContent: React.FC = () => {
           target.tagName === 'BUTTON' || 
           target.closest('a') || 
           target.closest('button') ||
+          target.closest('.cursor-pointer') ||
           window.getComputedStyle(target).cursor === 'pointer';
 
         if (isClickable) {
@@ -68,7 +81,6 @@ const AppContent: React.FC = () => {
       />
       
       {/* Small dot cursor */}
-      {/* Removed transition-all to prevent position lag. Added specific transitions for style changes. */}
       <div 
         ref={dotRef}
         className="fixed w-2 h-2 bg-graphite rounded-full pointer-events-none z-[60] transform -translate-x-1/2 -translate-y-1/2 transition-[transform,colors,background-color,border-color] duration-200 hidden md:block"
@@ -76,13 +88,22 @@ const AppContent: React.FC = () => {
       />
 
       <div className="relative z-10">
-        <Header />
+        <Header onHomeClick={() => setActivePaperId(null)} />
         <main>
-          <Hero />
-          <LabSection />
-          <StrategySection />
-          <InsightsSection />
-          <HeritageSection />
+          {activePaper ? (
+            <ArticlePage 
+              paper={activePaper} 
+              onBack={() => setActivePaperId(null)} 
+            />
+          ) : (
+            <>
+              <Hero />
+              <LabSection />
+              <StrategySection />
+              <InsightsSection onPaperClick={(id) => setActivePaperId(id)} />
+              <HeritageSection />
+            </>
+          )}
         </main>
         <Footer />
       </div>

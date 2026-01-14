@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { NavItem } from '../types';
 import { useLanguage } from '../LanguageContext';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  onHomeClick: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onHomeClick }) => {
   const [scrolled, setScrolled] = useState(false);
   const { lang, toggleLang, t } = useLanguage();
 
@@ -23,11 +27,20 @@ const Header: React.FC = () => {
 
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    onHomeClick(); // Reset to home view first
+    // Small timeout to allow render to switch back to home before scrolling
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 50);
   };
+
+  const handleLogoClick = () => {
+    onHomeClick();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   return (
     <header
@@ -38,15 +51,14 @@ const Header: React.FC = () => {
       }`}
     >
       <div className="max-w-[90vw] mx-auto flex justify-between items-center">
-        {/* Logo Area - Updated for Rectangular SVG */}
-        <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        {/* Logo Area */}
+        <div className="flex items-center gap-3 group cursor-pointer" onClick={handleLogoClick}>
           <div className="h-8 md:h-10 w-auto min-w-[120px] flex items-center justify-start relative">
              <img 
                src="/quantell.svg" 
                alt="Quantell Capital" 
                className="h-full w-auto object-contain"
                onError={(e) => {
-                 // Fallback if image not found, just show text style for debugging
                  e.currentTarget.style.display = 'none';
                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
                }}

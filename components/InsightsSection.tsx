@@ -2,7 +2,11 @@ import React from 'react';
 import SectionReveal from './SectionReveal';
 import { useLanguage } from '../LanguageContext';
 
-const InsightsSection: React.FC = () => {
+interface InsightsSectionProps {
+  onPaperClick: (id: string) => void;
+}
+
+const InsightsSection: React.FC<InsightsSectionProps> = ({ onPaperClick }) => {
   const { t } = useLanguage();
 
   return (
@@ -18,7 +22,10 @@ const InsightsSection: React.FC = () => {
         <div className="space-y-0">
           {t.insights.papers.map((paper, index) => (
             <SectionReveal key={index} delay={index * 150}>
-              <div className="group border-t border-gray-200 py-10 hover:bg-gray-50 transition-colors cursor-pointer relative overflow-hidden">
+              <div 
+                onClick={() => onPaperClick(paper.id)}
+                className="group border-t border-gray-200 py-10 hover:bg-gray-50 transition-colors cursor-pointer relative overflow-hidden"
+              >
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline">
                   <div className="md:col-span-2 font-mono text-xs text-gold font-bold">
                     {paper.category}
@@ -27,12 +34,12 @@ const InsightsSection: React.FC = () => {
                     <h3 className="font-serif text-2xl md:text-3xl text-graphite group-hover:text-gray-600 transition-colors mb-2">
                       {paper.title}
                     </h3>
-                    <p className="font-sans text-sm text-gray-500 max-w-2xl">
+                    <p className="font-sans text-sm text-gray-500 max-w-2xl line-clamp-2">
                       {paper.abstract}
                     </p>
                   </div>
                   <div className="md:col-span-3 text-right font-mono text-xs text-muted">
-                    {paper.date} <span className="ml-4 inline-block opacity-0 group-hover:opacity-100 transition-opacity text-gold">↓ PDF</span>
+                    {paper.date} <span className="ml-4 inline-block opacity-0 group-hover:opacity-100 transition-opacity text-gold">→ READ</span>
                   </div>
                 </div>
               </div>
